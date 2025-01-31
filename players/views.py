@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, json
 import pandas as pd
 
+from players.utils import get_player_data
 
 players_bp = Blueprint('players', __name__)
 
@@ -32,14 +33,8 @@ def compare():
 
 @players_bp.route('/profile/<player_name>', methods=['GET'])
 def player_profile(player_name):
-    # Load the JSON data
-    with open('all_player_stats.json') as f:
-        data = json.load(f)
+    player_data = get_player_data(player_name)
 
-    # Find the player in the data
-    player_data = next((player for player in data if player['Player'] == player_name), None)
-
-    # If the player is not found, return a 404 or an error page
     if player_data is None:
         return "Player not found", 404
 
