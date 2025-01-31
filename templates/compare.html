@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Compare Players{% endblock %}
+
+{% block content %}
+    <h1>Compare NBA Players</h1>
+    <form method="POST">
+        <label for="players">Select Players:</label><br>
+        {% for player in players %}
+            <input type="checkbox" name="players" value="{{ player }}"> {{ player }}<br>
+        {% endfor %}
+        <input type="submit" value="Compare">
+    </form>
+
+    {% if player_stats %}
+        <h2>Selected Players</h2>
+        <table border="1">
+            <tr>
+                <th>Player</th>
+                <th>PPG</th>
+                <th>APG</th>
+                <th>RPG</th>
+                <th>3P%</th>
+                <th>FT%</th>
+            </tr>
+            {% for player in player_stats.itertuples() %}
+                <tr>
+                    <td>{{ player.Player }}</td>
+                    <td>{{ player.PPG }}</td>
+                    <td>{{ player.APG }}</td>
+                    <td>{{ player.RPG }}</td>
+                    <td>{{ player['3P%'] }}</td>
+                    <td>{{ player['FT%'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h3>League Averages</h3>
+        <ul>
+            <li>PPG: {{ league_averages['PPG'] }}</li>
+            <li>APG: {{ league_averages['APG'] }}</li>
+            <li>RPG: {{ league_averages['RPG'] }}</li>
+            <li>3P%: {{ league_averages['3P%'] }}</li>
+            <li>FT%: {{ league_averages['FT%'] }}</li>
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - NBA Player Comparison{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the NBA Player Comparison Tool</h1>
+    <ul>
+        <li><a href="{{ url_for('players.compare') }}">Compare Players</a></li>
+        <li><a href="{{ url_for('players.player_profile', player_name='Ivica Zubac') }}">View LeBron James Profile</a></li>
+    </ul>
+{% endblock %}

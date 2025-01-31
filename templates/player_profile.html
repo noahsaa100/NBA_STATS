@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ player['Player'] }} Profile</h1>
+  <table>
+      <tr>
+          <td>PPG (Points Per Game)</td>
+          <td>{{ player['PPG'] }}</td>
+      </tr>
+      <tr>
+          <td>APG (Assists Per Game)</td>
+          <td>{{ player['APG'] }}</td>
+      </tr>
+      <tr>
+          <td>RPG (Rebounds Per Game)</td>
+          <td>{{ player['RPG'] }}</td>
+      </tr>
+      <tr>
+          <td>3P% (Three-Point Percentage)</td>
+          <td>{{ player['3P%'] }}</td>
+      </tr>
+      <tr>
+          <td>FT% (Free Throw Percentage)</td>
+          <td>{{ player['FT%'] }}</td>
+      </tr>
+      <tr>
+          <td>FG% (Field Goal Percentage)</td>
+          <td>{{ player['FG%'] }}</td>
+      </tr>
+      <tr>
+          <td>eFG% (Effective Field Goal Percentage)</td>
+          <td>{{ player['eFG%'] }}</td>
+      </tr>
+  </table>
+{% endblock %}
