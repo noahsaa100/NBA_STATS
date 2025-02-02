@@ -1,16 +1,9 @@
 from flask import Blueprint, render_template, request, json
 import pandas as pd
 
-from players.utils import get_player_data
+from players.utils import get_player_data, load_player_data, get_league_data
 
 players_bp = Blueprint('players', __name__)
-
-averages_df = pd.read_csv('data/averages.csv')
-league_averages_df = pd.read_csv('data/league_averages.csv')
-totals_df = pd.read_csv('data/totals.csv')
-all_player_stats_df = pd.read_csv('data/all_player_stats.csv')
-all_player_stats_df.to_json('all_player_stats.json', orient='records', lines=False)
-totals_df.to_json('totals.json', orient='records', lines=False)
 
 
 @players_bp.route('/')
@@ -20,15 +13,21 @@ def index():
 
 @players_bp.route('/compare', methods=['GET', 'POST'])
 def compare():
-    players = averages_df["Player"].unique()
-    player_stats = None
-    league_averages = league_averages_df.iloc[0].to_dict()
+    players = load_player_data()  # Load all player data
+    player_stats = []
+    league_averages = None
 
     if request.method == 'POST':
         selected_players = request.form.getlist('players')
-        player_stats = averages_df[averages_df["Player"].isin(selected_players)]
 
-    return render_template("compare.html")
+        # Get player data for selected players
+        player_stats = [get_player_data(player) for player in selected_players if get_player_data(player)]
+
+        # Get league data for the season of the first selected player
+        if player_stats:
+            league_averages = get_league_data(player_stats[0]["Year"])
+
+    return render_template("compare.html", players=players, player_stats=player_stats, league_averages=league_averages)
 
 
 @players_bp.route('/profile/<player_name>', methods=['GET'])
