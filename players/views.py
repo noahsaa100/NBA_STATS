@@ -25,7 +25,8 @@ def compare():
 
         # Get league data for the season of the first selected player
         if player_stats:
-            league_averages = get_league_data(player_stats[0]["Year"])
+            if len (player_stats)== 1:
+                league_averages = get_league_data(player_stats[0]["Year"])
 
     return render_template("compare.html", players=players, player_stats=player_stats, league_averages=league_averages)
 

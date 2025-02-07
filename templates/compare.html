@@ -6,13 +6,27 @@
 <!-- Player Selection Form -->
 <form method="POST">
     <label for="players">Select Players:</label>
-    <select name="players" multiple>
+    <select name="players" id="players" multiple>
         {% for player in players %}
             <option value="{{ player['Player'] }}">{{ player['Player'] }}</option>
         {% endfor %}
     </select>
     <button type="submit">Compare</button>
 </form>
+
+<!-- JavaScript to limit the selection to 2 players -->
+<script>
+    const playerSelect = document.getElementById("players");
+
+    playerSelect.addEventListener("change", function () {
+        // If more than 2 players are selected, alert and deselect the last one
+        if (playerSelect.selectedOptions.length > 2) {
+            alert("You can only select 2 players.");
+            const selectedOptions = Array.from(playerSelect.selectedOptions);
+            selectedOptions[selectedOptions.length - 1].selected = false;
+        }
+    });
+</script>
 
 {% if player_stats %}
     <h2>Comparison Results</h2>
@@ -23,7 +37,7 @@
                 {% for player in player_stats %}
                     <th>{{ player["Player"] }}</th>
                 {% endfor %}
-                {% if league_averages %}
+                {% if league_averages and player_stats|length == 1 %}
                     <th>League Average</th>
                 {% endif %}
             </tr>
@@ -36,7 +50,7 @@
                     {% for player in player_stats %}
                         <td>{{ player[stat] if player[stat] is not none else "N/A" }}</td>
                     {% endfor %}
-                    {% if league_averages %}
+                    {% if league_averages and player_stats|length == 1 %}
                         <td>{{ league_averages[stat] if league_averages[stat] is not none else "N/A" }}</td>
                     {% endif %}
                 </tr>
