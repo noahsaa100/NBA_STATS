@@ -7,12 +7,29 @@
 <form method="POST">
     <label for="players">Select Players:</label>
     <select name="players" id="players" multiple>
+    {% set unique_players = players|groupby('Player') %}
+    {% for player_group in unique_players %}
+        {% set player = player_group[1][0] %}
+        <option value="{{ player['Player'] }}">{{ player['Player'] }}</option>
+    {% endfor %}
         {% for player in players %}
             <option value="{{ player['Player'] }}">{{ player['Player'] }}</option>
         {% endfor %}
     </select>
     <button type="submit">Compare</button>
 </form>
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@4.0.1/dist/js/multi-select-tag.min.js"></script>
+<script>
+    var tagSelector = new MultiSelectTag('players', {
+        maxSelection: 2,              // default unlimited.
+        required: true,               // default false.
+        placeholder: 'Search tags',   // default 'Search'.
+        onChange: function(selected) { // Callback when selection changes.
+            console.log('Selection changed:', selected);
+        }
+    });
+</script>
+
 <!-- JavaScript to limit the selection to 2 players -->
 <script>
     const playerSelect = document.getElementById("players");
@@ -26,6 +43,7 @@
         }
     });
 </script>
+
 {% if player_stats %}
     <h2>Comparison Results</h2>
     <table border="1">
