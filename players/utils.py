@@ -3,9 +3,9 @@ import pandas as pd
 
 
 def convert_to_json():
-    all_player_stats_df = pd.read_csv('data/all_player_stats.csv')
+    all_player_stats_df = pd.read_csv('jupyter/all_player_stats.csv')
     all_player_stats_df.to_json('all_player_stats.json', orient='records', lines=False)
-    league_averages_df = pd.read_csv('data/league_averages.csv')
+    league_averages_df = pd.read_csv('jupyter/league_averages.csv')
     league_averages_df.to_json('league_averages.json')
 
 
