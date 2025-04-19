@@ -12,9 +12,6 @@
         {% set player = player_group[1][0] %}
         <option value="{{ player['Player'] }}">{{ player['Player'] }}</option>
     {% endfor %}
-        {% for player in players %}
-            <option value="{{ player['Player'] }}">{{ player['Player'] }}</option>
-        {% endfor %}
     </select>
     <button type="submit">Compare</button>
 </form>
